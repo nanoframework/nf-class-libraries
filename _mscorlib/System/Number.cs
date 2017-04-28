@@ -286,6 +286,8 @@ namespace System
             ValidateFormat(format, out formatCh, out precision);
 
             String result = FormatNative(value, formatCh, precision);
+			// TODO: fix the FormatNative() method then remove the following line. See https://github.com/nanoframework/nf-interpreter/issues/285
+			if (result.Length == 0) return string.Empty;
 
             if (isInteger)
             {
@@ -459,9 +461,6 @@ namespace System
 
         private static String InsertGroupSeparators(String original, NumberFormatInfo info)
         {
-			// Temporary fix for https://github.com/NETMF/netmf-interpreter/issues/366
-			if (original.Length == 0) return original;
-			
             int digitsStartPos = (original[0] == '-') ? 1 : 0;
 
             int decimalPointPos = original.IndexOf('.');
