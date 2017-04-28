@@ -389,8 +389,8 @@ namespace System
                     break;
                 
                 case 'N':
-                    // InsertGroupSeperators, AppendTrailingZeros, ReplaceNegativeSign
-                    result = InsertGroupSeperators(result, info);
+                    // InsertGroupSeparators, AppendTrailingZeros, ReplaceNegativeSign
+                    result = InsertGroupSeparators(result, info);
                     goto case 'F'; // falls through
                 case 'F':
                     // AppendTrailingZeros, ReplaceNegativeSign
@@ -410,7 +410,7 @@ namespace System
 
             if (format == 'N')
             {
-                result = InsertGroupSeperators(result, info);
+                result = InsertGroupSeparators(result, info);
             }
 
             result = ReplaceDecimalSeperator(result, info);
@@ -457,8 +457,11 @@ namespace System
             }
         }
 
-        private static String InsertGroupSeperators(String original, NumberFormatInfo info)
+        private static String InsertGroupSeparators(String original, NumberFormatInfo info)
         {
+			// Temporary fix for https://github.com/NETMF/netmf-interpreter/issues/366
+			if (original.Length == 0) return original;
+			
             int digitsStartPos = (original[0] == '-') ? 1 : 0;
 
             int decimalPointPos = original.IndexOf('.');
