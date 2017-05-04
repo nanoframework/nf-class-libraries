@@ -6,9 +6,12 @@ build_script:
 - ps: >-
 
     nuget restore CoreLibrary\nanoFramework.CoreLibrary.sln
+
     msbuild CoreLibrary\nanoFramework.CoreLibrary.sln /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
+
     nuget restore Windows.Devices.Gpio\nanoFramework.Windows.Devices.Gpio.sln
+
     msbuild Windows.Devices.Gpio\nanoFramework.Windows.Devices.Gpio.sln /p:Configuration=Release  /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 artifacts:
