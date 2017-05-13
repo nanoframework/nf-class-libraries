@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
-namespace Windows.Devices.Gpio
+namespace Windows.Devices.Gpio.Provider
 {
     /// <summary>
     /// Describes the modes in which you can open a general-purpose I/O (GPIO) pin.

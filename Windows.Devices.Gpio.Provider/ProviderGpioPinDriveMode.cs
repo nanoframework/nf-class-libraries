@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
-namespace Windows.Devices.Gpio
+namespace Windows.Devices.Gpio.Provider
 {
     /// <summary>
     /// Describes whether a general-purpose I/O (GPIO) pin is configured as an input or an output, and how values are driven onto the pin.

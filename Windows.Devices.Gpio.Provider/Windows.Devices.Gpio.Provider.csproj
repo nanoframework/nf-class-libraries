@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\nanoFramework.Tools.MSBuildSystem.1.0.0-preview0039\build\nanoFramework.Tools.MSBuildSystem.props" Condition="Exists('..\packages\nanoFramework.Tools.MSBuildSystem.1.0.0-preview0039\build\nanoFramework.Tools.MSBuildSystem.props')" />
   <Import Project="packages\nanoFramework.Tools.MSBuildSystem.1.0.0-preview0039\build\nanoFramework.Tools.MSBuildSystem.props" Condition="Exists('packages\nanoFramework.Tools.MSBuildSystem.1.0.0-preview0039\build\nanoFramework.Tools.MSBuildSystem.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D160797C-52FF-4136-93E1-DA1106B8AE4A}</ProjectGuid>
+    <ProjectGuid>{0D05B0F1-249A-4B88-88ED-D029FF3AC42C}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Windows.Devices.Gpio</AssemblyName>
-    <RootNamespace>Windows.Devices.Gpio</RootNamespace>
+    <RootNamespace>Windows.Devices.Gpio.Provider</RootNamespace>
+    <AssemblyName>Windows.Devices.Gpio.Provider</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <TargetFrameworkIdentifier>
@@ -38,17 +38,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\Windows.Devices.Gpio.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Windows.Devices.Gpio.Provider.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Windows.Devices.Gpio.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\Windows.Devices.Gpio.Provider.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -70,8 +70,8 @@
     <!-- we like verbose -->
     <NFMDP_STUB_Verbose>true</NFMDP_STUB_Verbose>
     <NFMDP_STUB_VerboseMinimize>true</NFMDP_STUB_VerboseMinimize>
-    <NFMDP_STUB_GenerateSkeletonFile>Stubs\windows_devices_gpio_native</NFMDP_STUB_GenerateSkeletonFile>
-    <NFMDP_STUB_GenerateSkeletonProject>Windows_Devices_Gpio</NFMDP_STUB_GenerateSkeletonProject>
+    <NFMDP_STUB_GenerateSkeletonFile>Stubs\windows_devices_gpio_provider_native</NFMDP_STUB_GenerateSkeletonFile>
+    <NFMDP_STUB_GenerateSkeletonProject>Windows_Devices_Gpio_Provider</NFMDP_STUB_GenerateSkeletonProject>
     <NFMDP_CMD_LINE_OUTPUT>false</NFMDP_CMD_LINE_OUTPUT>
   </PropertyGroup>
   <ItemGroup>
@@ -79,29 +79,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="GpioSharingMode.cs" />
-    <Compile Include="GpioPinValue.cs" />
-    <Compile Include="GpioPinEdge.cs" />
-    <Compile Include="GpioPinDriveMode.cs" />
-    <Compile Include="GpioOpenStatus.cs" />
-    <Compile Include="GpioChangePolarity.cs" />
-    <Compile Include="Gpio​Change​Count.cs" />
-    <Compile Include="Gpio​Change​Counter.cs" />
-    <Compile Include="Gpio​Change​Reader.cs" />
-    <Compile Include="Gpio​Change​Record.cs" />
-    <Compile Include="Gpio​Controller.cs" />
-    <Compile Include="Gpio​Pin.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Windows.Devices.Gpio.Provider\Windows.Devices.Gpio.Provider.csproj">
-      <Project>{0d05b0f1-249a-4b88-88ed-d029ff3ac42c}</Project>
-      <Name>Windows.Devices.Gpio.Provider</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Windows.Devices\Windows.Devices.csproj">
-      <Project>{71580475-70B6-4E20-9BBA-AB915B37EE94}</Project>
-      <Name>Windows.Devices</Name>
-    </ProjectReference>
+    <Compile Include="DefaultGpioControllerProvider.cs" />
+    <Compile Include="DefaultGpioPinProvider.cs" />
+    <Compile Include="IGpioControllerProvider.cs" />
+    <Compile Include="IGpioPinProvider.cs" />
+    <Compile Include="IGpioProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProviderGpioPinDriveMode.cs" />
+    <Compile Include="ProviderGpioPinEdge.cs" />
+    <Compile Include="ProviderGpioPinValue.cs" />
+    <Compile Include="ProviderGpioSharingMode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

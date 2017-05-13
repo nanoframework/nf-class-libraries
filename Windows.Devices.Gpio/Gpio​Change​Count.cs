@@ -14,7 +14,10 @@ namespace Windows.Devices.Gpio
     public struct GpioChangeCount
     {
         /// <summary>
-        /// The number of times the transition of polarity specified by <see cref="GpioChangeCounter.Polarity" /> occured on the pin.
+        /// The number of times the transition of polarity specified by <see>
+        ///         <cref>GpioChangeCounter.Polarity</cref>
+        ///     </see>
+        ///     occured on the pin.
         /// </summary>
         public ulong Count;
 

@@ -16,13 +16,6 @@ namespace Windows.Devices.Gpio
     /// </summary>
     public sealed class Gpio​Change​Reader
     {
-        // property backing fields
-        private int _Capacity;
-        private bool _IsOverflowed;
-        private bool _IsStarted;
-        private int _Length;
-        private GpioChangePolarity _Polarity = GpioChangePolarity.Falling;
-
         /// <summary>
         /// Creates a new GpioChangeReader associated with the specified pin. Only a single GpioChangeReader may be associated with a pin at any given time.
         /// </summary>
@@ -51,7 +44,7 @@ namespace Windows.Devices.Gpio
         /// <item><term>E_ACCESSDENIED - The pin is not opened in Exclusive mode.</term></item>
         /// </list>
         /// </remarks>
-        public Gpio​Change​Reader(Gpio​Pin pin, Int32 minCapacity)
+        public Gpio​Change​Reader(Gpio​Pin pin, int minCapacity)
         {
 
         }
@@ -67,7 +60,7 @@ namespace Windows.Devices.Gpio
         {
             get
             {
-                return _Capacity;
+                return 0;
             }
         }
 
@@ -81,7 +74,7 @@ namespace Windows.Devices.Gpio
         {
             get
             {
-                return (Length == 0);
+                return false;
             }
         }
 
@@ -96,7 +89,7 @@ namespace Windows.Devices.Gpio
         {
             get
             {
-                return _IsOverflowed;
+                return false;
             }
         }
 
@@ -110,7 +103,7 @@ namespace Windows.Devices.Gpio
         {
             get
             {
-                return _IsStarted;
+                return false;
             }
         }
 
@@ -124,7 +117,7 @@ namespace Windows.Devices.Gpio
         {
             get
             {
-                return _Length;
+                return 0;
             }
         }
 
@@ -147,13 +140,12 @@ namespace Windows.Devices.Gpio
         {
             get
             {
-                return _Polarity;
+                return GpioChangePolarity.Both;
             }
 
             set
             {
                 // TODO implement validation logic as described in the documentation
-                _Polarity = value;
             }
         }
 
