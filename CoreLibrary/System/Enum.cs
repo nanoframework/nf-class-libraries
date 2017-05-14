@@ -6,19 +6,22 @@
 
 namespace System
 {
-    using System.Reflection;
-    using System.Collections;
-    using System.Runtime.CompilerServices;
-
+    /// <summary>
+    /// Provides the base class for enumerations.
+    /// </summary>
     [Serializable]
     public abstract class Enum : ValueType
     {
 
+        /// <summary>
+        /// Converts the value of this instance to its equivalent string representation.
+        /// </summary>
+        /// <returns>The string representation of the value of this instance.</returns>
         public override String ToString()
         {
-            Type eT = this.GetType();
-            FieldInfo fi = eT.GetField("value__");
-            object obj = fi.GetValue(this);
+            var eT = GetType();
+            var fi = eT.GetField("value__");
+            var obj = fi.GetValue(this);
 
             return obj.ToString();
         }
