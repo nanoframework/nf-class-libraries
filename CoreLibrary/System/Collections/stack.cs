@@ -12,7 +12,7 @@ namespace System.Collections
     /// <summary>
     /// An array implementation of a stack. Push can be O(n). Pop is O(1).
     /// </summary>
-    [Serializable()]
+    [Serializable]
     [DebuggerDisplay("Count = {Count}")]
     public class Stack : ICollection, ICloneable
     {
@@ -20,14 +20,14 @@ namespace System.Collections
         private int _size;         // Number of items in the stack.
 
       // Keep in-sync with c_DefaultCapacity in CLR_RT_HeapBlock_Stack in NANOCLR_Runtime__HeapBlock.h
-        private const int _defaultCapacity = 4;
+        private const int DefaultCapacity = 4;
 
       /// <summary>
       /// Initializes a new instance of the Stack class that is empty and has the default initial capacity.
       /// </summary>
         public Stack()
         {
-            _array = new Object[_defaultCapacity];
+            _array = new Object[DefaultCapacity];
             _size = 0;
         }
 
@@ -68,9 +68,9 @@ namespace System.Collections
         public virtual Object Clone()
         {
             Stack s = new Stack();
-            int capacity = _defaultCapacity;
+            int capacity = DefaultCapacity;
 
-            if (_size > _defaultCapacity)
+            if (_size > DefaultCapacity)
             {
               // only re-allocate a new array if the size isn't what we need.
               // otherwise, the one allocated in the constructor will be just fine
@@ -110,7 +110,7 @@ namespace System.Collections
         public virtual IEnumerator GetEnumerator()
         {
             int capacity = _array.Length;
-            return new Array.SZArrayEnumerator(_array, capacity - _size, capacity);
+            return new Array.SzArrayEnumerator(_array, capacity - _size, capacity);
         }
 
       /// <summary>

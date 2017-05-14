@@ -4,7 +4,6 @@
 // See LICENSE file in the project root for full license information.
 //
 
-using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -23,7 +22,7 @@ namespace System.Collections
         private int _size;     // Number of elements.
 
       // Keep in-sync with c_DefaultCapacity in CLR_RT_HeapBlock_Queue in NANOCLR_Runtime__HeapBlock.h
-        private const int _defaultCapacity = 4;
+        private const int DefaultCapacity = 4;
 
       /// <summary>
       /// Initializes a new instance of the Queue class that is empty, has the default initial
@@ -31,7 +30,7 @@ namespace System.Collections
       /// </summary>
         public Queue()
         {
-            _array = new Object[_defaultCapacity];
+            _array = new Object[DefaultCapacity];
             _head = 0;
             _tail = 0;
             _size = 0;
@@ -53,7 +52,7 @@ namespace System.Collections
         {
             Queue q = new Queue();
 
-            if (_size > _defaultCapacity)
+            if (_size > DefaultCapacity)
             {
               // only re-allocate a new array if the size isn't what we need.
               // otherwise, the one allocated in the constructor will be just fine
@@ -62,7 +61,7 @@ namespace System.Collections
             else
             {
               // if size is not the same as capacity, we need to adjust tail accordingly
-                q._tail = _size % _defaultCapacity;
+                q._tail = _size % DefaultCapacity;
             }
 
             q._size = _size;
@@ -121,7 +120,7 @@ namespace System.Collections
 
             if (_size > 0 && _tail <= _head) endIndex += _array.Length;
 
-            return new Array.SZArrayEnumerator(_array, _head, endIndex);
+            return new Array.SzArrayEnumerator(_array, _head, endIndex);
         }
 
       /// <summary>
