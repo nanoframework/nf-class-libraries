@@ -1,5 +1,13 @@
+<?xml version="1.0" encoding="us-ascii"?>
 <UserSettings>
-    <ApplicationIdentity version="12.0"/>
+	<ApplicationIdentity version="15.0"/>
+	<Category name="Browser Link_BrowserLinkOptions" Category="{046530f6-3404-372b-9710-73bcc3284607}" Package="{8c28e535-abc9-4f92-b5c9-6c16617c8884}" RegisteredName="Browser Link_BrowserLinkOptions" PackageName="EurekaPackage">
+		<PropertyValue name="Enabled">True</PropertyValue>
+	</Category>
+    <Category name="CodeLens" Category="{04DA95C1-B198-491D-BB93-DAD8610F3019}" Package="{E269B994-EF71-4CE0-8BCD-581C217372E8}" RegisteredName="CodeLens" PackageName="Microsoft.VisualStudio.Editor.Implementation.EditorPackage">
+		<CodeLensDisabledProviders/>
+		<PropertyValue name="IsCodeLensEnabled">true</PropertyValue>
+	</Category>
     <ToolsOptions>
         <ToolsOptionsCategory name="TextEditor" RegisteredName="TextEditor">
             <ToolsOptionsSubCategory name="AllLanguages" RegisteredName="AllLanguages" PackageName="Text Management Package"/>
