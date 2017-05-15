@@ -14,7 +14,7 @@ namespace Windows.Devices.Gpio
     public sealed class Gpio​Change​Counter
     {
         // property backing fields
-        private GpioChangePolarity _Polarity = GpioChangePolarity.Falling;
+        private GpioChangePolarity _polarity = GpioChangePolarity.Falling;
 
 
         /// <summary>
@@ -59,13 +59,13 @@ namespace Windows.Devices.Gpio
         {
             get
             {
-                return _Polarity;
+                return _polarity;
             }
 
             set
             {
                 // TODO implement validation logic as described in the documentation
-                _Polarity = value;
+                _polarity = value;
             }
         }
 

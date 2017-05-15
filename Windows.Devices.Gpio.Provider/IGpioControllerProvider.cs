@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
-namespace Windows.Devices.Gpio
+namespace Windows.Devices.Gpio.Provider
 {
     /// <summary>
     /// Represents the actions common to all general-purpose I/O (GPIO) controllers.

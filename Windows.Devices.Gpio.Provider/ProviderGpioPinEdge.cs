@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
-namespace Windows.Devices.Gpio
+namespace Windows.Devices.Gpio.Provider
 {
     /// <summary>
     /// Describes the possible types of change that can occur to the value of the general-purpose I/O (GPIO) pin.
