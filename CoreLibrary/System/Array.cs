@@ -371,7 +371,7 @@ namespace System
                 if (_index < _endIndex)
                 {
                     _index++;
-                    return (_index < _endIndex);
+                    return _index < _endIndex;
                 }
 
                 return false;

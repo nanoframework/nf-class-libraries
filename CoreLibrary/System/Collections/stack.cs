@@ -59,7 +59,7 @@ namespace System.Collections
       /// Removes all Objects from the Stack.
       /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern virtual void Clear();
+        public virtual extern void Clear();
 
       /// <summary>
       /// Creates a shallow copy of the Stack.
@@ -67,20 +67,20 @@ namespace System.Collections
       /// <returns>A shallow copy of the Stack.</returns>
         public virtual Object Clone()
         {
-            Stack s = new Stack();
-            int capacity = DefaultCapacity;
+            var stack = new Stack();
+            var capacity = DefaultCapacity;
 
             if (_size > DefaultCapacity)
             {
               // only re-allocate a new array if the size isn't what we need.
               // otherwise, the one allocated in the constructor will be just fine
-                s._array = new Object[_size];
+                stack._array = new Object[_size];
                 capacity = _size;
             }
 
-            s._size = _size;
-            Array.Copy(_array, _array.Length - _size, s._array, capacity - _size, _size);
-            return s;
+            stack._size = _size;
+            Array.Copy(_array, _array.Length - _size, stack._array, capacity - _size, _size);
+            return stack;
         }
 
       /// <summary>
@@ -109,7 +109,7 @@ namespace System.Collections
       /// <returns>An IEnumerator for the Stack.</returns>
         public virtual IEnumerator GetEnumerator()
         {
-            int capacity = _array.Length;
+            var capacity = _array.Length;
             return new Array.SzArrayEnumerator(_array, capacity - _size, capacity);
         }
 
@@ -118,21 +118,21 @@ namespace System.Collections
       /// </summary>
       /// <returns>The Object at the top of the Stack.</returns>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern virtual Object Peek();
+        public virtual extern Object Peek();
 
       /// <summary>
       /// Removes and returns the object at the top of the Stack.
       /// </summary>
       /// <returns>The Object removed from the top of the Stack.</returns>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern virtual Object Pop();
+        public virtual extern Object Pop();
 
       /// <summary>
       /// Inserts an object at the top of the Stack.
       /// </summary>
       /// <param name="obj">The Object to push onto the Stack.</param>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern virtual void Push(Object obj);
+        public virtual extern void Push(Object obj);
 
       /// <summary>
       /// Copies the Stack to a new array, in the same order Pop would return the items.
@@ -140,7 +140,7 @@ namespace System.Collections
       /// <returns>A new array containing copies of the elements of the Stack.</returns>
         public virtual Object[] ToArray()
         {
-            Object[] objArray = new Object[_size];
+            var objArray = new Object[_size];
 
             Array.Copy(_array, _array.Length - _size, objArray, 0, _size);
 

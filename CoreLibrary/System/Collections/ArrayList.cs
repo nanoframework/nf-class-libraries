@@ -133,18 +133,18 @@ namespace System.Collections
 
         public virtual Object Clone()
         {
-            var la = new ArrayList();
+            var arrayList = new ArrayList();
 
             if (_size > DefaultCapacity)
             {
               // only re-allocate a new array if the size isn't what we need.
               // otherwise, the one allocated in the constructor will be just fine
-                la._items = new Object[_size];
+                arrayList._items = new Object[_size];
             }
 
-            la._size = _size;
-            Array.Copy(_items, 0, la._items, 0, _size);
-            return la;
+            arrayList._size = _size;
+            Array.Copy(_items, 0, arrayList._items, 0, _size);
+            return arrayList;
         }
 
         public virtual bool Contains(Object item)

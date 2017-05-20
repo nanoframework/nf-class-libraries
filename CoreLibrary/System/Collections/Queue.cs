@@ -13,7 +13,7 @@ namespace System.Collections
     /// A circular-array implementation of a queue. Enqueue can be O(n).  Dequeue is O(1).
     /// </summary>
     [DebuggerDisplay("Count = {Count}")]
-    [Serializable()]
+    [Serializable]
     public class Queue : ICollection, ICloneable
     {
         private Object[] _array;
@@ -50,7 +50,7 @@ namespace System.Collections
       /// <returns>A shallow copy of the Queue.</returns>
         public virtual Object Clone()
         {
-            Queue q = new Queue();
+            var q = new Queue();
 
             if (_size > DefaultCapacity)
             {
@@ -92,7 +92,7 @@ namespace System.Collections
       /// Removes all objects from the Queue.
       /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern virtual void Clear();
+        public virtual extern void Clear();
 
       /// <summary>
       /// Copies the Queue elements to an existing one-dimensional Array, starting at
@@ -101,14 +101,14 @@ namespace System.Collections
       /// <param name="array">The one-dimensional Array that is the destination of the elements copied from Queue.</param>
       /// <param name="index">The zero-based index in array at which copying begins.</param>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern virtual void CopyTo(Array array, int index);
+        public virtual extern void CopyTo(Array array, int index);
 
       /// <summary>
       /// Adds an object to the end of the Queue.
       /// </summary>
       /// <param name="obj">The object to add to the Queue.</param>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern virtual void Enqueue(Object obj);
+        public virtual extern void Enqueue(Object obj);
 
       /// <summary>
       /// Returns an enumerator that iterates through the Queue.
@@ -116,7 +116,7 @@ namespace System.Collections
       /// <returns>An IEnumerator for the Queue.</returns>
         public virtual IEnumerator GetEnumerator()
         {
-            int endIndex = _tail;
+            var endIndex = _tail;
 
             if (_size > 0 && _tail <= _head) endIndex += _array.Length;
 
@@ -128,14 +128,14 @@ namespace System.Collections
       /// </summary>
       /// <returns>The object that is removed from the beginning of the Queue.</returns>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern virtual Object Dequeue();
+        public virtual extern Object Dequeue();
 
       /// <summary>
       /// Returns the object at the beginning of the Queue without removing it.
       /// </summary>
       /// <returns>The object at the beginning of the Queue.</returns>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern virtual Object Peek();
+        public virtual extern Object Peek();
 
       /// <summary>
       /// Determines whether an element is in the Queue.
@@ -144,18 +144,9 @@ namespace System.Collections
       /// <returns>true if obj is found in the Queue; otherwise, false.</returns>
         public virtual bool Contains(Object obj)
         {
-            if (_size == 0)
-                return false;
-
-            if (_head < _tail)
-            {
-                return Array.IndexOf(_array, obj, _head, _size) >= 0;
-            }
-            else
-            {
-                return (Array.IndexOf(_array, obj, _head, _array.Length - _head) >= 0) ||
-                       (Array.IndexOf(_array, obj, 0, _tail) >= 0);
-            }
+            if (_size == 0) return false;
+            if (_head < _tail) return Array.IndexOf(_array, obj, _head, _size) >= 0;
+            return Array.IndexOf(_array, obj, _head, _array.Length - _head) >= 0 || Array.IndexOf(_array, obj, 0, _tail) >= 0;
         }
 
       /// <summary>
@@ -166,7 +157,7 @@ namespace System.Collections
       /// <returns>A new array containing elements copied from the Queue.</returns>
         public virtual Object[] ToArray()
         {
-            Object[] arr = new Object[_size];
+            var arr = new Object[_size];
 
             CopyTo(arr, 0);
 
