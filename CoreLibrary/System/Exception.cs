@@ -15,9 +15,9 @@ namespace System
     public class Exception
     {
         private readonly string _message;
-        private readonly Exception _mInnerException;
-        private object _mStackTrace;
-        protected int MhResult;
+        private readonly Exception _innerException;
+        private object _stackTrace;
+        protected int HResult;
 
         /// <summary>
         /// Initializes a new instance of the Exception class.
@@ -43,7 +43,7 @@ namespace System
         public Exception(String message, Exception innerException)
         {
             _message = message;
-            _mInnerException = innerException;
+            _innerException = innerException;
         }
 
         /// <summary>
@@ -56,10 +56,8 @@ namespace System
         {
             get
             {
-                if (_message == null)
-                {
-                    return "Exception was thrown: " + GetType().FullName;
-                }
+                if (_message == null) return "Exception was thrown: " + GetType().FullName;
+
                 return _message;
             }
         }
@@ -72,7 +70,7 @@ namespace System
         /// </value>
         public Exception InnerException
         {
-            get { return _mInnerException; }
+            get { return _innerException; }
         }
 
         /// <summary>

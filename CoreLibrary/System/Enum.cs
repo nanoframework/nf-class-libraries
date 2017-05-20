@@ -19,11 +19,11 @@ namespace System
         /// <returns>The string representation of the value of this instance.</returns>
         public override String ToString()
         {
-            var eT = GetType();
-            var fi = eT.GetField("value__");
-            var obj = fi.GetValue(this);
+            var type = GetType();
+            var field = type.GetField("value__");
+            var value = field.GetValue(this);
 
-            return obj.ToString();
+            return value.ToString();
         }
 
     }

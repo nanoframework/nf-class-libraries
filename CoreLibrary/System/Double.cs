@@ -102,10 +102,7 @@ namespace System
         /// <exception cref="System.ArgumentNullException"></exception>
         public static double Parse(String s)
         {
-            if (s == null)
-            {
-                throw new ArgumentNullException();
-            }
+            if (s == null) throw new ArgumentNullException();
 
             return Convert.ToDouble(s);
         }
@@ -116,14 +113,9 @@ namespace System
         /// <returns>The string representation of the value of this instance.</returns>
         public override String ToString()
         {
-            if (IsPositiveInfinity(this))
-            {
-                return "Infinity";
-            }
-            if (IsNegativeInfinity(this))
-            {
-                return "-Infinity";
-            }
+            if (IsPositiveInfinity(this)) return "Infinity";
+            if (IsNegativeInfinity(this)) return "-Infinity";
+
             return IsNaN(this) ? "NaN" : Number.Format(MValue, false, "G", NumberFormatInfo.CurrentInfo);
         }
 
@@ -134,14 +126,9 @@ namespace System
         /// <returns>The string representation of the value of this instance as specified by format.</returns>
         public String ToString(String format)
         {
-            if (IsPositiveInfinity(this))
-            {
-                return "Infinity";
-            }
-            if (IsNegativeInfinity(this))
-            {
-                return "-Infinity";
-            }
+            if (IsPositiveInfinity(this)) return "Infinity";
+            if (IsNegativeInfinity(this)) return "-Infinity";
+
             return IsNaN(this) ? "NaN" : Number.Format(MValue, false, format, NumberFormatInfo.CurrentInfo);
         }
 
@@ -155,10 +142,7 @@ namespace System
         {
             result = 0.0;
 
-            if (s == null)
-            {
-                return false;
-            }
+            if (s == null) return false;
 
             try
             {
@@ -169,6 +153,7 @@ namespace System
             {
                 result = 0.0;
             }
+
             return false;
         }
     }

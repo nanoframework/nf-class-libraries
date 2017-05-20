@@ -83,7 +83,7 @@ namespace System.IO
         public IOException(String message, int hresult)
             : base(message)
         {
-            MhResult = hresult;
+            HResult = hresult;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace System.IO
         /// </value>
         public IOExceptionErrorCode ErrorCode
         {
-            get { return (IOExceptionErrorCode)MhResult; }
+            get { return (IOExceptionErrorCode)HResult; }
         }
     }
 }
