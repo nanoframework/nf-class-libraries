@@ -14,7 +14,7 @@ namespace System
     [Serializable]
     public struct Int32
     {
-        internal int MValue;
+        internal int Value;
 
         /// <summary>
         /// Represents the largest possible value of an Int32. This field is constant.
@@ -33,7 +33,7 @@ namespace System
         /// <returns>The string representation of the value of this instance, consisting of a negative sign if the value is negative, and a sequence of digits ranging from 0 to 9 with no leading zeroes.</returns>
         public override String ToString()
         {
-            return Number.Format(MValue, true, "G", NumberFormatInfo.CurrentInfo);
+            return Number.Format(Value, true, "G", NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace System
         /// <returns>he string representation of the value of this instance as specified by format.</returns>
         public String ToString(String format)
         {
-            return Number.Format(MValue, true, format, NumberFormatInfo.CurrentInfo);
+            return Number.Format(Value, true, format, NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
@@ -54,10 +54,7 @@ namespace System
         /// <exception cref="ArgumentNullException"></exception>
         public static int Parse(String s)
         {
-            if (s == null)
-            {
-                throw new ArgumentNullException();
-            }
+            if (s == null) throw new ArgumentNullException();
 
             return Convert.ToInt32(s);
         }
