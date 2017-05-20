@@ -12,7 +12,7 @@ namespace System
     [Serializable]
     public struct Char
     {
-        internal char MValue;
+        private char _value;
 
         /// <summary>
         /// Represents the largest possible value of a Char. This field is constant.
@@ -29,7 +29,7 @@ namespace System
         /// <returns>The string representation of the value of this instance.</returns>
         public override String ToString()
         {
-            return new String(MValue, 1);
+            return new String(_value, 1);
         }
 
         /// <summary>
@@ -38,12 +38,12 @@ namespace System
         /// <returns>The lower case character.</returns>
         public char ToLower()
         {
-            if('A' <= MValue && MValue <= 'Z')
+            if('A' <= _value && _value <= 'Z')
             {
-                return (char)(MValue - ('A' - 'a'));
+                return (char)(_value - ('A' - 'a'));
             }
 
-            return MValue;
+            return _value;
         }
 
         /// <summary>
@@ -52,12 +52,12 @@ namespace System
         /// <returns>The upper case character.</returns>
         public char ToUpper()
         {
-            if('a' <= MValue && MValue <= 'z')
+            if('a' <= _value && _value <= 'z')
             {
-                return (char)(MValue + ('A' - 'a'));
+                return (char)(_value + ('A' - 'a'));
             }
 
-            return MValue;
+            return _value;
         }
     }
 }

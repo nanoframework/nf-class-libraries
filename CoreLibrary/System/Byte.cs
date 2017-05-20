@@ -14,7 +14,7 @@ namespace System
     [Serializable]
     public struct Byte
     {
-        private byte _mValue;
+        private byte _value;
 
         /// <summary>
         /// Represents the largest possible value of a Byte. This field is constant.
@@ -32,7 +32,7 @@ namespace System
         /// <remarks>The return value is formatted with the general numeric format specifier ("G") and the NumberFormatInfo object for the thread current culture.</remarks>
         public override String ToString()
         {
-            return Number.Format(_mValue, true, "G", NumberFormatInfo.CurrentInfo);
+            return Number.Format(_value, true, "G", NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace System
         /// <returns>The string representation of the current Byte object, formatted as specified by the format parameter.</returns>
         public String ToString(String format)
         {
-            return Number.Format(_mValue, true, format, NumberFormatInfo.CurrentInfo);
+            return Number.Format(_value, true, format, NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
