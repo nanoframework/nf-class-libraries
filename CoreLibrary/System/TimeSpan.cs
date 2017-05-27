@@ -65,7 +65,7 @@ namespace System
         /// <param name="hours">Number of hours.</param>
         /// <param name="minutes">Number of minutes.</param>
         /// <param name="seconds">Number of seconds.</param>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public extern TimeSpan(int hours, int minutes, int seconds);
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace System
         /// <param name="hours">Number of hours.</param>
         /// <param name="minutes">Number of minutes.</param>
         /// <param name="seconds">Number of seconds.</param>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public extern TimeSpan(int days, int hours, int minutes, int seconds);
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace System
         /// <param name="minutes">Number of minutes.</param>
         /// <param name="seconds">Number of seconds.</param>
         /// <param name="milliseconds">Number of milliseconds.</param>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public extern TimeSpan(int days, int hours, int minutes, int seconds, int milliseconds);
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace System
         {
             get
             {
-                return (int)((NumberOfTicks / TicksPerHour) % 24);
+                return (int)(NumberOfTicks / TicksPerHour % 24);
             }
         }
 
@@ -133,7 +133,7 @@ namespace System
         {
             get
             {
-                return (int)((NumberOfTicks / TicksPerMillisecond) % 1000);
+                return (int)(NumberOfTicks / TicksPerMillisecond % 1000);
             }
         }
 
@@ -145,7 +145,7 @@ namespace System
         {
             get
             {
-                return (int)((NumberOfTicks / TicksPerMinute) % 60);
+                return (int)(NumberOfTicks / TicksPerMinute % 60);
             }
         }
 
@@ -157,7 +157,7 @@ namespace System
         {
             get
             {
-                return (int)((NumberOfTicks / TicksPerSecond) % 60);
+                return (int)(NumberOfTicks / TicksPerSecond % 60);
             }
         }
 
@@ -181,7 +181,7 @@ namespace System
         /// <para>0 if t1 is equal to t2.</para>
         /// <para>1 if t1 is longer than t2.</para>
         /// </returns>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public static extern int Compare(TimeSpan t1, TimeSpan t2);
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace System
         /// <para>0 if This instance is equal to value.</para>
         /// <para>1 if This instance is longer than value or value is null.</para>
         /// </returns>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public extern int CompareTo(Object value);
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace System
         /// </summary>
         /// <param name="value">An object to compare with this instance.</param>
         /// <returns>true if value is a TimeSpan object that represents the same time interval as the current TimeSpan structure; otherwise, false.</returns>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public override extern bool Equals(Object value);
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace System
         /// <param name="t1">The first time interval to compare.</param>
         /// <param name="t2">The second time interval to compare.</param>
         /// <returns>true if the values of t1 and t2 are equal; otherwise, false.</returns>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public static extern bool Equals(TimeSpan t1, TimeSpan t2);
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace System
         /// </summary>
         /// <returns>The string representation of the current TimeSpan value.</returns>
         /// <remarks>The returned string is formatted with the "c" format specifier and has the following format: [-][d.]hh:mm:ss[.fffffff]</remarks>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public override extern String ToString();
 
         /// <summary>

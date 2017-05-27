@@ -24,7 +24,7 @@ namespace System
         /// <remarks><para>Unlike most classes, Array provides the CreateInstance method, instead of public constructors, to allow for late bound access.</para>
         /// <para>Reference-type elements are initialized to nullNothingnullptrunit a null reference(Nothing in Visual Basic). Value-type elements are initialized to zero.</para>
         /// <para>This method is an O(n) operation, where n is length.</para></remarks>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public static extern Array CreateInstance(Type elementType, int length);
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace System
         /// <param name="destinationArray">The Array that receives the data.</param>
         /// <param name="destinationIndex">A 32-bit integer that represents the index in the destinationArray at which storing begins.</param>
         /// <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public static extern void Copy(Array sourceArray, int sourceIndex, Array destinationArray, int destinationIndex, int length);
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace System
         /// <param name="array">The Array whose elements need to be cleared.</param>
         /// <param name="index">The starting index of the range of elements to clear.</param>
         /// <param name="length">The number of elements to clear.</param>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public static extern void Clear(Array array, int index, int length);
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace System
         /// </value>
         public extern int Length
         {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get;
         }
 
@@ -134,10 +134,10 @@ namespace System
 
         extern Object IList.this[int index]
         {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get;
 
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
+            [MethodImpl(MethodImplOptions.InternalCall)]
             set;
         }
 
@@ -323,7 +323,7 @@ namespace System
             return -1;
         }
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         private static extern bool TrySzIndexOf(Array sourceArray, int sourceIndex, int count, Object value, out int retVal);
 
       // This is the underlying Enumerator for all of our array-based data structures (Array, ArrayList, Stack, and Queue)

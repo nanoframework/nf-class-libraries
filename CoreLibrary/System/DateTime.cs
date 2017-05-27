@@ -7,12 +7,10 @@ namespace System
     using Runtime.CompilerServices;
     using Globalization;
 
-    // Summary:
-    //     Specifies whether a System.DateTime object represents a local time, a Coordinated
-    //     Universal Time (UTC), or is not specified as either local time or UTC.
     /// <summary>
-    /// Specifies whether a DateTime object represents a local time, a Coordinated Universal Time (UTC), or is not specified as either local time or UTC.
+    /// Specifies whether a DateTime object represents a local time or a Coordinated Universal Time (UTC).
     /// </summary>
+    /// <remarks>nanoFramework is only handling UTC time.</remarks>
     [Serializable]
     public enum DateTimeKind
     {
@@ -21,9 +19,9 @@ namespace System
         /// </summary>
         Utc = 1,
         /// <summary>
-        /// The time represented is local time.
+        /// The time represented is local time. Set to same value as UTC because nF does not support local time
         /// </summary>
-        Local = 2,
+        Local = 1
     }
 
     // This value type represents a date and time.  Every DateTime
@@ -54,40 +52,20 @@ namespace System
     {
         // Number of 100ns ticks per time unit
         private const long TicksPerMillisecond = 10000;
-        private const long TicksPerSecond = TicksPerMillisecond * 1000;
-        private const long TicksPerMinute = TicksPerSecond * 60;
-        private const long TicksPerHour = TicksPerMinute * 60;
-        private const long TicksPerDay = TicksPerHour * 24;
 
         // Number of milliseconds per time unit
         private const int MillisPerSecond = 1000;
-        private const int MillisPerMinute = MillisPerSecond * 60;
-        private const int MillisPerHour = MillisPerMinute * 60;
-        private const int MillisPerDay = MillisPerHour * 24;
-
-        private const long MinTicks = 0;
         private const long MaxTicks = 441796895990000000;
 
-        // This is mask to extract ticks from m_ticks
+        // This is mask to extract ticks from _ticks
         private const ulong TickMask = 0x7FFFFFFFFFFFFFFFL;
         private const ulong UtcMask = 0x8000000000000000L;
-
-        private static readonly int[] DaysToMonth365 = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
-        private static readonly int[] DaysToMonth366 = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
-        private const int DatePartYear = 0;
-        private const int DatePartDayOfYear = 1;
-        private const int DatePartMonth = 2;
-        private const int DatePartDay = 3;
-        private const int DaysPerYear = 365;
-        private const int DaysPer4Years = DaysPerYear * 4 + 1;
-        private const int DaysPer100Years = DaysPer4Years * 25 - 1;
-        private const int DaysPer400Years = DaysPer100Years * 4 + 1;
 
         /// <summary>
         /// Represents the smallest possible value of DateTime. This field is read-only.
         /// </summary>
         /// <remarks>The value of this constant is equivalent to 00:00:00.0000000, January 1, 1601.</remarks>
-        public static readonly DateTime MinValue = new DateTime(MinTicks);
+        public static readonly DateTime MinValue = new DateTime(0);
         /// <summary>
         /// Represents the largest possible value of DateTime. This field is read-only.
         /// </summary>
@@ -103,21 +81,20 @@ namespace System
         /// <exception cref="System.ArgumentOutOfRangeException">ticks - Ticks must be between DateTime.MinValue.Ticks and DateTime.MaxValue.Ticks.</exception>
         public DateTime(long ticks)
         {
-            if ((ticks & (long)TickMask) < MinTicks || (ticks & (long)TickMask) > MaxTicks) throw new ArgumentOutOfRangeException();
+            if ((ticks & (long)TickMask) < 0 || (ticks & (long)TickMask) > MaxTicks) throw new ArgumentOutOfRangeException();
 
             _ticks = (ulong)ticks;
         }
 
         /// <summary>
-        /// Initializes a new instance of the DateTime structure to a specified number of ticks and to Coordinated Universal Time (UTC) or local time.
+        /// Initializes a new instance of the DateTime structure to a specified number of ticks and to Coordinated Universal Time (UTC).
         /// </summary>
         /// <param name="ticks">A date and time expressed in the number of 100-nanosecond intervals. </param>
-        /// <param name="kind">One of the enumeration values that indicates whether ticks specifies a local time, Coordinated Universal Time (UTC), or neither.</param>
+        /// <param name="kind">Unused as nanoFramework is handling UTC kind only.</param>
         public DateTime(long ticks, DateTimeKind kind)
             : this(ticks)
         {
-            if (kind == DateTimeKind.Local) _ticks &= ~UtcMask;
-            else _ticks |= UtcMask;
+            _ticks |= UtcMask;
         }
 
         /// <summary>
@@ -155,7 +132,7 @@ namespace System
         /// <param name="minute">The minutes (0 through 59). </param>
         /// <param name="second">The seconds (0 through 59). </param>
         /// <param name="millisecond">The milliseconds (0 through 999). </param>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        [MethodImpl(MethodImplOptions.InternalCall)]
         public extern DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond);
 
         /// <summary>
@@ -180,7 +157,7 @@ namespace System
         /// <returns>An object whose value is the sum of the date and time represented by this instance and the number of days represented by val.</returns>
         public DateTime AddDays(double val)
         {
-            return Add(val, MillisPerDay);
+            return Add(val, MillisPerSecond * 60 * 60 * 24);
         }
 
         /// <summary>
@@ -190,7 +167,7 @@ namespace System
         /// <returns>An object whose value is the sum of the date and time represented by this instance and the number of hours represented by val.</returns>
         public DateTime AddHours(double val)
         {
-            return Add(val, MillisPerHour);
+            return Add(val, MillisPerSecond * 60 * 60);
         }
 
         /// <summary>
@@ -210,7 +187,7 @@ namespace System
         /// <returns>An object whose value is the sum of the date and time represented by this instance and the number of minutes represented by val.</returns>
         public DateTime AddMinutes(double val)
         {
-            return Add(val, MillisPerMinute);
+            return Add(val, MillisPerSecond * 60);
         }
 
         /// <summary>
@@ -270,27 +247,8 @@ namespace System
         /// <param name="month">The month (a number ranging from 1 to 12). </param>
         /// <returns>The number of days in month for the specified year.
         /// For example, if month equals 2 for February, the return value is 28 or 29 depending upon whether year is a leap year.</returns>
-        public static int DaysInMonth(int year, int month)
-        {
-            if (month < 1 || month > 12) throw new ArgumentOutOfRangeException();
-            
-            var days = IsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
-
-            return days[month] - days[month - 1];
-        }
-
-        /// <summary>
-        /// Returns an indication whether the specified year is a leap year.
-        /// </summary>
-        /// <param name="year">A 4-digit year.</param>
-        /// <returns>true if year is a leap year; otherwise, false.</returns>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static bool IsLeapYear(int year)
-        {
-            if (year < 1 || year > 9999) throw new ArgumentOutOfRangeException();
-
-            return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
-        }
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        public static extern int DaysInMonth(int year, int month);
 
         /// <summary>
         /// Returns a value indicating whether this instance is equal to a specified object.
@@ -307,7 +265,6 @@ namespace System
                 // Convertion to object and back is a workaround.
                 object o = this;
                 var thisTime = (DateTime)o;
-
                 return Compare(thisTime, (DateTime)val) == 0;
             }
 
@@ -336,7 +293,8 @@ namespace System
             get
             {
                 // Need to remove UTC mask before arithmetic operations. Then set it back.
-                return (_ticks & UtcMask) != 0 ? new DateTime((long)(((_ticks & TickMask) - (_ticks & TickMask) % TicksPerDay) | UtcMask)) : new DateTime((long)(_ticks - _ticks % TicksPerDay));
+                const long ticksPerDay = TicksPerMillisecond * 1000 * 60 * 60 * 24;
+                return (_ticks & UtcMask) != 0 ? new DateTime((long)(((_ticks & TickMask) - (_ticks & TickMask) % ticksPerDay) | UtcMask)) : new DateTime((long)(_ticks - _ticks % ticksPerDay));
             }
         }
 
@@ -348,9 +306,10 @@ namespace System
         /// </value>
         public int Day
         {
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
-                return GetDatePart(DatePartDay);
+                return 0;
             }
         }
 
@@ -362,9 +321,10 @@ namespace System
         /// </value>
         public DayOfWeek DayOfWeek
         {
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
-                return (DayOfWeek)((Ticks / TicksPerDay + 1) % 7);
+                return DayOfWeek.Monday;
             }
         }
 
@@ -376,9 +336,10 @@ namespace System
         /// </value>
         public int DayOfYear
         {
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
-                return GetDatePart(DatePartDayOfYear);
+                return 0;
             }
         }
 
@@ -390,9 +351,10 @@ namespace System
         /// </value>
         public int Hour
         {
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
-                return (int)(Ticks / TicksPerHour % 24);
+                return 0;
             }
         }
 
@@ -400,32 +362,26 @@ namespace System
         /// Gets a value that indicates whether the time represented by this instance is based on local time, Coordinated Universal Time (UTC), or neither.
         /// </summary>
         /// <value>
-        /// One of the enumeration values that indicates what the current time represents. The default is Local.
+        /// nanoFramework is using UTC time only.
         /// </value>
         public DateTimeKind Kind
         {
             get
             {
-                // If mask for UTC time is set - return UTC. If no maskk - return local.
-                return (_ticks & UtcMask) != 0 ? DateTimeKind.Utc : DateTimeKind.Local;
+                return DateTimeKind.Utc;
             }
 
         }
 
         /// <summary>
-        /// Creates a new DateTime object that has the same number of ticks as the specified DateTime, but is designated as either local time, Coordinated Universal Time (UTC), or neither, as indicated by the specified DateTimeKind value.
+        /// Creates a new DateTime object that has the same number of ticks as the specified DateTime.
         /// </summary>
         /// <param name="value">A date and time. </param>
-        /// <param name="kind">One of the enumeration values that indicates whether the new object represents local time, UTC, or neither.</param>
+        /// <param name="kind">One of the enumeration values that indicates whether the new object represents UTC time.</param>
         /// <returns>A new object that has the same number of ticks as the object represented by the value parameter and the DateTimeKind value specified by the kind parameter.</returns>
         public static DateTime SpecifyKind(DateTime value, DateTimeKind kind)
         {
-            var retVal = new DateTime((long) value._ticks)
-            {
-                _ticks = kind == DateTimeKind.Utc ? value._ticks | UtcMask : value._ticks & ~UtcMask
-            };
-
-            return retVal;
+            return new DateTime((long)value._ticks) { _ticks = value._ticks | UtcMask };
         }
 
         /// <summary>
@@ -436,9 +392,10 @@ namespace System
         /// </value>
         public int Millisecond
         {
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
-                return (int)(Ticks / TicksPerMillisecond % 1000);
+                return 0;
             }
         }
 
@@ -450,9 +407,10 @@ namespace System
         /// </value>
         public int Minute
         {
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
-                return (int)(Ticks / TicksPerMinute % 60);
+                return 0;
             }
         }
 
@@ -464,9 +422,10 @@ namespace System
         /// </value>
         public int Month
         {
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
-                return GetDatePart(DatePartMonth);
+                return 0;
             }
         }
 
@@ -476,12 +435,12 @@ namespace System
         /// <value>
         /// An object whose value is the current local date and time.
         /// </value>
+        /// <remarks>nanoFramework is using UTC time only</remarks>
         public static DateTime Now
         {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
             get
             {
-                return new DateTime();
+                return UtcNow;
             }
         }
 
@@ -493,7 +452,7 @@ namespace System
         /// </value>
         public static DateTime UtcNow
         {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
                 return new DateTime();
@@ -508,9 +467,10 @@ namespace System
         /// </value>
         public int Second
         {
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
-                return (int)(Ticks / TicksPerSecond % 60);
+                return 0;
             }
         }
 
@@ -546,7 +506,7 @@ namespace System
         {
             get
             {
-                return new TimeSpan((long)((_ticks & TickMask) % TicksPerDay));
+                return new TimeSpan((long)((_ticks & TickMask) % TicksPerMillisecond * 1000 * 60 * 60 * 24));
             }
         }
 
@@ -558,7 +518,7 @@ namespace System
         /// </value>
         public static DateTime Today
         {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
                 return new DateTime();
@@ -573,9 +533,10 @@ namespace System
         /// </value>
         public int Year
         {
+            [MethodImpl(MethodImplOptions.InternalCall)]
             get
             {
-                return GetDatePart(DatePartYear);
+                return 0;
             }
         }
 
@@ -596,15 +557,8 @@ namespace System
         /// <returns>An object that is equal to the date and time represented by this instance minus the time interval represented by val.</returns>
         public DateTime Subtract(TimeSpan val)
         {
-            return new DateTime((long)(_ticks - (ulong)val.NumberOfTicks));
+            return new DateTime((long)(_ticks - (ulong)val.Ticks));
         }
-
-        /// <summary>
-        /// Converts the value of the current DateTime object to local time.
-        /// </summary>
-        /// <returns>An object whose Kind property is Local, and whose value is the local time equivalent to the value of the current DateTime object, or MaxValue if the converted value is too large to be represented by a DateTime object, or MinValue if the converted value is too small to be represented as a DateTime object.</returns>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern DateTime ToLocalTime();
 
         /// <summary>
         /// Converts the value of the current DateTime object to its equivalent string representation.
@@ -626,13 +580,6 @@ namespace System
         }
 
         /// <summary>
-        /// Converts the value of the current DateTime object to Coordinated Universal Time (UTC).
-        /// </summary>
-        /// <returns>An object whose Kind property is Utc, and whose value is the UTC equivalent to the value of the current DateTime object, or MaxValue if the converted value is too large to be represented by a DateTime object, or MinValue if the converted value is too small to be represented by a DateTime object.</returns>
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern DateTime ToUniversalTime();
-
-        /// <summary>
         /// Adds a specified time interval to a specified date and time, yielding a new date and time.
         /// </summary>
         /// <param name="d">The date and time value to add. </param>
@@ -642,7 +589,7 @@ namespace System
         /// </returns>
         public static DateTime operator +(DateTime d, TimeSpan t)
         {
-            return new DateTime((long)(d._ticks + (ulong)t.NumberOfTicks));
+            return new DateTime((long)(d._ticks + (ulong)t.Ticks));
         }
 
 
@@ -656,7 +603,7 @@ namespace System
         /// </returns>
         public static DateTime operator -(DateTime d, TimeSpan t)
         {
-            return new DateTime((long)(d._ticks - (ulong)t.NumberOfTicks));
+            return new DateTime((long)(d._ticks - (ulong)t.Ticks));
         }
 
         /// <summary>
@@ -748,30 +695,6 @@ namespace System
         public static bool operator >=(DateTime t1, DateTime t2)
         {
             return Compare(t1, t2) >= 0;
-        }
-
-        private int GetDatePart(int part)
-        {
-            var n = (int)(Ticks / TicksPerDay);
-            var y400 = n / DaysPer400Years;
-            n -= y400 * DaysPer400Years;
-            var y100 = n / DaysPer100Years;
-            if (y100 == 4) y100 = 3;
-            n -= y100 * DaysPer100Years;
-            var y4 = n / DaysPer4Years;
-            n -= y4 * DaysPer4Years;
-            var y1 = n / DaysPerYear;
-            if (y1 == 4) y1 = 3;
-            if (part == DatePartYear) return y400 * 400 + y100 * 100 + y4 * 4 + y1 + 1;
-            n -= y1 * DaysPerYear;
-            if (part == DatePartDayOfYear) return n + 1;
-            var leapYear = y1 == 3 && (y4 != 24 || y100 == 3);
-            var days = leapYear ? DaysToMonth366 : DaysToMonth365;
-            var m = n >> 5 + 1;
-            while (n >= days[m]) m++;
-            if (part == DatePartMonth) return m;
-
-            return n - days[m - 1] + 1;
         }
     }
 }
