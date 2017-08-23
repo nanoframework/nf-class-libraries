@@ -22,9 +22,6 @@ namespace Windows.Devices.I2c
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern int NativeTransmit(byte[] writeBuffer, uint nbWritten, byte[] readBuffer, uint nbRead);
         
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern int NativeRead(byte[] readBuffer, uint nbRead);
-
         // this is used as the lock object 
         // a lock is required because multiple threads can access the SPI bus
         private object _syncLock = new object();
@@ -42,7 +39,7 @@ namespace Windows.Devices.I2c
             var deviceId = (i2cBus[3] - 48) * 1000 + settings.SlaveAddress;
 
             // check if this device ID already exists
-            if (!I2cController.DeviceCollection.Contains(deviceId))
+            //if (!I2cController.DeviceCollection.Contains(deviceId))
             {
                 _i2cBus = i2cBus;
                 _connectionSettings = new I2cConnectionSettings(settings.SlaveAddress)
@@ -59,11 +56,13 @@ namespace Windows.Devices.I2c
                 // add to device collection
                 I2cController.DeviceCollection.Add(deviceId);
             }
+            /*
             else
             {
                 // this device already exists throw an exception
                 throw new ArgumentException();
             }
+            */
         }
 
         /// <summary>
@@ -147,12 +146,7 @@ namespace Windows.Devices.I2c
         /// <param name="buffer">The buffer to which you want to read the data from the I2C bus. The length of the buffer determines how much data to request from the device.</param>
         public void Read(Byte[] buffer)
         {
-            lock (_syncLock)
-            {
-                // check if device has been disposed
-                if (!_disposedValue) NativeRead(buffer, 0);
-                else throw new ObjectDisposedException();
-            }
+            ReadPartial(buffer);
         }
 
         /// <summary>
@@ -167,8 +161,8 @@ namespace Windows.Devices.I2c
             {
                 // check if device has been disposed
                 if (_disposedValue) throw new ObjectDisposedException();
-                UInt32 nbRead = 0;
-                var status = NativeRead(buffer, nbRead);
+                var nbRead = (UInt32)buffer.Length;
+                var status = NativeTransmit(null, 0, buffer, nbRead);
 
                 return new I2cTransferResult { BytesTransferred = nbRead, Status = (I2cTransferStatus)status };
             }
@@ -181,12 +175,7 @@ namespace Windows.Devices.I2c
         /// <param name="buffer">A buffer that contains the data that you want to write to the I2C device. This data should not include the bus address.</param>
         public void Write(Byte[] buffer)
         {
-            lock (_syncLock)
-            {
-                // check if device has been disposed
-                if (!_disposedValue) NativeTransmit(buffer, 0, null, 0);
-                else throw new ObjectDisposedException();
-            }
+            WritePartial(buffer);
         }
 
         /// <summary>
@@ -200,7 +189,7 @@ namespace Windows.Devices.I2c
             {
                 // check if device has been disposed
                 if (_disposedValue) throw new ObjectDisposedException();
-                UInt32 nbWritten = 0;
+                var nbWritten = (UInt32) buffer.Length;
                 var status = NativeTransmit(buffer, nbWritten, null, 0);
 
                 return new I2cTransferResult { BytesTransferred = nbWritten, Status = (I2cTransferStatus)status };
@@ -215,12 +204,7 @@ namespace Windows.Devices.I2c
         /// <param name="readBuffer">The buffer to which you want to read the data from the I2C bus. The length of the buffer determines how much data to request from the device.</param>
         public void WriteRead(Byte[] writeBuffer, Byte[] readBuffer)
         {
-            lock (_syncLock)
-            {
-                // check if device has been disposed
-                if (!_disposedValue) NativeTransmit(writeBuffer, 0, readBuffer, 0);
-                else throw new ObjectDisposedException();
-            }
+            WriteReadPartial(writeBuffer, readBuffer);
         }
 
         /// <summary>
@@ -237,8 +221,8 @@ namespace Windows.Devices.I2c
             {
                 // check if device has been disposed
                 if (_disposedValue) throw new ObjectDisposedException();
-                UInt32 nbWritten = 0;
-                UInt32 nbRead = 0;
+                var nbWritten = (UInt32)writeBuffer.Length;
+                var nbRead = (UInt32)readBuffer.Length;
                 var status = NativeTransmit(writeBuffer, nbWritten, readBuffer, nbRead);
 
                 return new I2cTransferResult { BytesTransferred = nbRead + nbWritten, Status = (I2cTransferStatus)status };
@@ -287,6 +271,20 @@ namespace Windows.Devices.I2c
         }
 
         #endregion
+    }
 
+    /// <summary>
+    /// Exception thrown when a check in driver's constructor finds a device that already exists with the same settings (I2C bus AND slave address)
+    /// </summary>
+    [Serializable]
+    public class I2cDeviceAlreadyInUseException : Exception
+    {
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString() { return base.Message; }
     }
 }
