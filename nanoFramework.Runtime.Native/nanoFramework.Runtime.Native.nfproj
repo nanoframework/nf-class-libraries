@@ -7,15 +7,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>0ABBD655-2F68-4F7D-A66F-A552EA812EB1</ProjectGuid>
+    <ProjectGuid>4C4AA37C-19D9-4C41-ADD0-BA83A0E593DA</ProjectGuid>
     <OutputType>Library</OutputType>
     <FileAlignment>512</FileAlignment>
     <RootNamespace>
     </RootNamespace>
-    <AssemblyName>nanoFramework.Runtime.Events</AssemblyName>
+    <AssemblyName>nanoFramework.Runtime.Native</AssemblyName>
     <NFTargetVersion>v1.0</NFTargetVersion>
     <NF_IsCoreLibrary>True</NF_IsCoreLibrary>
-    <DocumentationFile>bin\$(Configuration)\nanoFramework.Runtime.Events.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\nanoFramework.Runtime.Native.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -38,11 +38,19 @@
     <!-- this is one is absolutely mandatory for base class libraries -->
     <NFMDP_STUB_SkeletonWithoutInterop>true</NFMDP_STUB_SkeletonWithoutInterop>
     <NFMDP_STUB_VerboseMinimize>true</NFMDP_STUB_VerboseMinimize>
-    <NFMDP_STUB_GenerateSkeletonFile>Stubs\nf_rt_events_native</NFMDP_STUB_GenerateSkeletonFile>
-    <NFMDP_STUB_GenerateSkeletonProject>nf_rt_events</NFMDP_STUB_GenerateSkeletonProject>
+    <NFMDP_STUB_GenerateSkeletonFile>Stubs\nf_rt_native</NFMDP_STUB_GenerateSkeletonFile>
+    <NFMDP_STUB_GenerateSkeletonProject>nf_rt_native</NFMDP_STUB_GenerateSkeletonProject>
     <NFMDP_CMD_LINE_OUTPUT>false</NFMDP_CMD_LINE_OUTPUT>
-    <Name>nanoFramework.Runtime.Events</Name>
+    <Name>nanoFramework.Runtime.Native</Name>
   </PropertyGroup>
+  <ItemGroup>
+    <NFMDP_PE_ExcludeClassByName Include="Microsoft.SPOT.PublishInApplicationDirectoryAttribute">
+      <InProject>false</InProject>
+    </NFMDP_PE_ExcludeClassByName>
+    <NFMDP_PE_ExcludeClassByName Include="Microsoft.SPOT.FieldNoReflectionAttribute">
+      <InProject>false</InProject>
+    </NFMDP_PE_ExcludeClassByName>
+  </ItemGroup>
   <ItemGroup>
     <NFMDP_PE_LoadHints Include="packages\nanoFramework.CoreLibrary.1.0.0-preview025\lib\mscorlib.dll">
       <InProject>false</InProject>
@@ -50,16 +58,9 @@
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="EventArgs.cs" />
-    <Compile Include="IEventListener.cs" />
-    <Compile Include="IEventProcessor.cs" />
-    <Compile Include="GenericEvent.cs" />
-    <Compile Include="BaseEvent.cs" />
-    <Compile Include="EventSink.cs" />
-    <Compile Include="EventCategory.cs" />
-    <Compile Include="NativeEventDispatcher.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WeakDelegate.cs" />
+    <Compile Include="Debug.cs" />
+    <Compile Include="Hardware\SystemInfo.cs" />
+    <Compile Include="ExecutionConstraint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />

@@ -31,7 +31,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>
-  </PropertyGroup>  
+  </PropertyGroup>
   <PropertyGroup>
     <!-- generate PE: TRUE -->
     <NFMDP_PE_SKIP>false</NFMDP_PE_SKIP>
@@ -92,18 +92,14 @@
     <Compile Include="System\Diagnostics\DebuggerAttributes.cs" />
     <Compile Include="System\Double.cs" />
     <Compile Include="System\Enum.cs" />
+    <Compile Include="System\Console.cs" />
     <Compile Include="System\Exception.cs" />
     <Compile Include="System\FlagsAttribute.cs" />
     <Compile Include="System\GC.cs" />
     <Compile Include="System\Globalization\CultureInfo.cs" />
-    <Compile Include="System\Globalization\CultureTypes.cs" />
     <Compile Include="System\Globalization\DateTimeFormat.cs" />
     <Compile Include="System\Globalization\DateTimeFormatInfo.cs" />
-    <Compile Include="System\Globalization\DaylightTime.cs" />
     <Compile Include="System\Globalization\NumberFormatInfo.cs" />
-    <Compile Include="System\Globalization\Resources\CultureInfo.designer.cs">
-      <DependentUpon>CultureInfo.resx</DependentUpon>
-    </Compile>
     <Compile Include="System\Guid.cs" />
     <Compile Include="System\IAsyncResult.cs" />
     <Compile Include="System\ICloneable.cs" />
@@ -209,12 +205,6 @@
     <Compile Include="System\Version.cs" />
     <Compile Include="System\Void.cs" />
     <Compile Include="System\WeakReference.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="System\Globalization\Resources\CultureInfo.resx">
-      <LastGenOutput>CultureInfo.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator(Mscorlib=true)</Generator>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <NFMDP_PE_ExcludeClassByName Include="System.AttributeTargets">
@@ -390,8 +380,8 @@
     </NFMDP_PE_ExcludeClassByName>
   </ItemGroup>
   <ItemGroup>
-   <None Include="key.snk" />
-   <None Include="packages.config" />
+    <None Include="key.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>
