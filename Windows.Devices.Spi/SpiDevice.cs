@@ -39,8 +39,9 @@ namespace Windows.Devices.Spi
             var deviceId = (spiBus[3] - 48) * 1000 + settings.ChipSelectLine;
 
             // check if this device ID already exists
-            if (!SpiController.DeviceCollection.Contains(deviceId))
-            {
+            //TODO: re-enable this test once it is fixed
+            //if (!SpiController.DeviceCollection.Contains(deviceId))
+            //{
                 _spiBus = spiBus;
                 _connectionSettings = new SpiConnectionSettings(settings);
 
@@ -51,12 +52,14 @@ namespace Windows.Devices.Spi
 
                 // add to device collection
                 SpiController.DeviceCollection.Add(deviceId);
+            /*
             }
             else
             {
                 // this device already exists throw an exception
                 throw new ArgumentException();
             }
+            */
         }
 
         /// <summary>
