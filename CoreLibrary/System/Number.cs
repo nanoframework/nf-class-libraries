@@ -290,6 +290,10 @@ namespace System
 
             if (isInteger)
             {
+                // Mimic C++ behaviour for the specific case : type is Integer, value = 0 and precision = 0
+				// See http://www.cplusplus.com/reference/cstdio/printf/
+                if (precision == 0 && result == String.Empty) return String.Empty;
+                
                 return PostProcessInteger(value, result, formatCh, precision, info);
             }
             return PostProcessFloat(result, formatCh, info);
